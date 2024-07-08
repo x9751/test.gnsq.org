@@ -9,7 +9,7 @@ export default function MobileMenu() {
 	return (
 		<div className="">
 			<button onClick={() => setIsMenuOpen(!isMenuOpen)}>
-      <svg
+				<svg
 					aria-hidden="true"
 					fill="none"
 					strokeWidth={1.5}
@@ -26,8 +26,8 @@ export default function MobileMenu() {
 				</svg>
 			</button>
 			<div
-				data-isMenuOpen={isMenuOpen}
-				className="fixed top-14 right-0 transition-all duration-300 translate-x-full data-[isMenuOpen=true]:-translate-x-0 bg-white text-black rounded-l-lg shadow-lg"
+				data-ismenuopen={isMenuOpen}
+				className="fixed top-14 right-0 transition-all duration-300 translate-x-full data-[ismenuopen=true]:-translate-x-0 bg-white text-black rounded-l-lg shadow-lg z-50"
 			>
 				<ul className="flex flex-col space-y-4 py-4">
 					<li>
