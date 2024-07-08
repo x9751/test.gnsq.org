@@ -5,7 +5,9 @@ export default function Header() {
 	return (
 		<header className="bg-green-600 p-4 text-white overflow-hidden">
 			<nav className="container mx-auto flex justify-between items-center">
-				<h1 className="text-2xl font-bold">GNSQ</h1>
+				<Link href="/" className="text-2xl font-bold">
+					GNSQ
+				</Link>
 				<div>
 					<div className="hidden sm:block">
 						<ul className="flex space-x-4">
