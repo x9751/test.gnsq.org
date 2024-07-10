@@ -10,31 +10,21 @@ export default function Header() {
 				</Link>
 				<div>
 					<div className="hidden sm:block">
-						<ul className="flex space-x-4">
-							<li>
-								<Link href="/" className="hover:underline">
-									Home
-								</Link>
+						<ul className="flex space-x-4 *:bg-green-700 *:p-2 *:rounded-lg *:transition-all *:duration-300">
+							<li className="hover:bg-green-800 active:bg-green-900">
+								<Link href="/">Home</Link>
 							</li>
-							<li>
-								<Link href="/forums" className="hover:underline">
-									Forums
-								</Link>
+							<li className="hover:bg-green-800 active:bg-green-900">
+								<Link href="/forums">Forums</Link>
 							</li>
-							<li>
-								<Link href="/messages" className="hover:underline">
-									Messages
-								</Link>
+							<li className="hover:bg-green-800 active:bg-green-900">
+								<Link href="/messages">Messages</Link>
 							</li>
-							<li>
-								<Link href="/about" className="hover:underline">
-									About Us
-								</Link>
+							<li className="hover:bg-green-800 active:bg-green-900">
+								<Link href="/about">About Us</Link>
 							</li>
-							<li>
-								<Link href="/profile" className="hover:underline">
-									Profile
-								</Link>
+							<li className="hover:bg-green-800 active:bg-green-900">
+								<Link href="/profile">Profile</Link>
 							</li>
 						</ul>
 					</div>

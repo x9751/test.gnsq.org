@@ -1,77 +1,56 @@
-import Header from "../components/header";
-import Footer from "../components/footer";
 
-import Sidebar from "./sidebar";
-
-export default function Forum() {
-	return (
-		<main className="flex min-h-screen flex-col">
-			<Header />
-			<div className="container mx-auto p-4 flex flex-col sm:flex-row">
-				<Sidebar />
-				<section className="p-4 w-full flex-grow">
-					<div className="flex justify-between items-center mb-4">
-						<h2 className="text-2xl font-bold">Forum Threads</h2>
-						<button className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
-							New Thread
-						</button>
-					</div>
-					<div className="bg-white p-4 rounded shadow mb-4">
-						<h3 className="text-xl font-bold mb-2">Thread Title</h3>
-						<p className="text-gray-700 mb-2">
-							Started by{" "}
-							<a
-								href="/profile/user123"
-								className="text-green-600 hover:underline"
-							>
-								User123
-							</a>
-						</p>
-						<p className="text-gray-700">
-							Last reply by{" "}
-							<a
-								href="/profile/user456"
-								className="text-green-600 hover:underline"
-							>
-								User456
-							</a>{" "}
-							at <time dateTime="2024-07-05">July 5, 2024</time>
-						</p>
-						<a href="/thread/123" className="text-green-600 hover:underline">
-							Read More
-						</a>
-					</div>
-					<nav className="mt-4">
-						<ul className="flex justify-center space-x-2">
-							<li>
-								<a
-									href="?page=1"
-									className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-								>
-									1
-								</a>
-							</li>
-							<li>
-								<a
-									href="?page=2"
-									className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-								>
-									2
-								</a>
-							</li>
-							<li>
-								<a
-									href="?page=3"
-									className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-								>
-									3
-								</a>
-							</li>
-						</ul>
-					</nav>
-				</section>
-			</div>
-			<Footer />
-		</main>
+export default async function Forum({
+	searchParams,
+}: {
+	searchParams: { [key: string]: string | string[] | undefined };
+}) {
+	const popular = searchParams.popular as string || "";
+	const search = searchParams.search as string || "";
+	const order = searchParams.order as string || "";
+	const page = searchParams.page as string || "";
+	const limit = searchParams.limit as string || "";
+	const categories = JSON.parse(
+		Buffer.from(searchParams?.categories as string || "e30=", "base64").toString("utf8")
 	);
+	await new Promise((resolve) => setTimeout(resolve, 2000));
+	return <JsonPrettifier jsonString={JSON.stringify({ popular: popular === "true", search, order, page: parseInt(page), categories, limit: parseInt(limit) })} />;
 }
+
+function syntaxHighlight(json: string) {
+	if (typeof json != 'string') {
+			json = JSON.stringify(json, undefined, 2);
+	}
+	json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*?"(\s*:)?|\b(true|false|null)\b|\b-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?\b)/g, function (match) {
+			var cls = 'text-gray-500';
+			if (/^"/.test(match)) {
+					if (/:$/.test(match)) {
+							cls = 'text-yellow-500';
+					} else {
+							cls = 'text-blue-500';
+					}
+			} else if (/true|false/.test(match)) {
+					cls = 'text-green-500';
+			} else if (/null/.test(match)) {
+					cls = 'text-red-500';
+			}
+			return '<span class="' + cls + '">' + match + '</span>';
+	});
+}
+
+const prettifyJson = (jsonString: string) => {
+  try {
+    const jsonObj = JSON.parse(jsonString);
+    const prettyJsonString = JSON.stringify(jsonObj, null, 2);
+    return syntaxHighlight(prettyJsonString);
+  } catch (e) {
+    return 'Error: Invalid JSON';
+  }
+};
+
+const JsonPrettifier = ({ jsonString }: { jsonString: string }) => {
+  const prettyHtml = prettifyJson(jsonString);
+  return (
+    <pre className="bg-black text-white p-4 text-wrap" dangerouslySetInnerHTML={{ __html: prettyHtml }} />
+  );
+};
