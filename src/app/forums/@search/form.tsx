@@ -129,7 +129,7 @@ export default function SearchForm(props: SearchFormProps) {
 			router,
 			setLoading
 		);
-	}, [popular, sort, page, limit, selectedCategories]);
+	}, [popular, sort, page, limit, selectedCategories, router]);
 
 	useEffect(() => {
 		setLoading(false);
