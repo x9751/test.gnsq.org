@@ -4,13 +4,13 @@ export default async function Forum({
 }: {
 	searchParams: { [key: string]: string | string[] | undefined };
 }) {
-	const popular = searchParams.popular as string || "";
+	const popular = searchParams.popular as string || "true";
 	const search = searchParams.search as string || "";
-	const order = searchParams.order as string || "";
-	const page = searchParams.page as string || "";
-	const limit = searchParams.limit as string || "";
+	const order = searchParams.order as string || "asc";
+	const page = searchParams.page as string || "1";
+	const limit = searchParams.limit as string || "10";
 	const categories = JSON.parse(
-		Buffer.from(searchParams?.categories as string || "e30=", "base64").toString("utf8")
+		Buffer.from(searchParams?.categories as string || "W10=", "base64").toString("utf8")
 	);
 	await new Promise((resolve) => setTimeout(resolve, 2000));
 	return <JsonPrettifier jsonString={JSON.stringify({ popular: popular === "true", search, order, page: parseInt(page), categories, limit: parseInt(limit) })} />;

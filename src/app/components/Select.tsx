@@ -7,9 +7,10 @@ type SelectProps = {
 	}[];
 	value: string;
 	onChange: (value: string) => void;
+	disabled?: boolean;
 };
 
-export default function Select({ options, value, onChange }: SelectProps) {
+export default function Select({ options, value, onChange, disabled }: SelectProps) {
 	const [isOpen, setIsOpen] = useState(false);
 	const [selectedLabel, setSelectedLabel] = useState("");
 	const dropdownRef = useRef(null);
@@ -42,7 +43,7 @@ export default function Select({ options, value, onChange }: SelectProps) {
 			ref={dropdownRef}
 		>
 			<div
-				className="w-full h-10 pl-3 pr-5 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline cursor-pointer flex items-center justify-between"
+				className={`w-full h-10 pl-3 pr-5 text-base placeholder-gray-600 border rounded-lg appearance-none focus:shadow-outline cursor-pointer flex items-center justify-between ${disabled ? "bg-gray-200" : "cursor-pointer"}`}
 				onClick={() => setIsOpen(!isOpen)}
 			>
 				<span>{selectedLabel}</span>
@@ -57,6 +58,7 @@ export default function Select({ options, value, onChange }: SelectProps) {
 							key={option.value}
 							className="px-4 py-2 cursor-pointer hover:bg-gray-200"
 							onClick={() => {
+								if (disabled) return;
 								onChange(option.value);
 								setIsOpen(false);
 							}}

@@ -1,15 +1,66 @@
+import db from "@/db/db";
 import Image from "next/image";
 import Footer from "../components/footer";
 import Header from "../components/header";
-import Sidebar from "./sidebar";
+import { getUser } from "@/db/auth";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+import UpdateProfileForm from "./UpdateProfile";
 
-export default function Profile() {
+export default async function Profile({
+	searchParams,
+}: {
+	searchParams: { edit: string };
+}) {
+	const user = await getUser();
+	if (!user) {
+		redirect("/login?redirect=/profile");
+	}
+
+	const edit = searchParams["edit"] === "true";
+
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Header />
 			<div className="container mx-auto p-4">
 				<div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-					<Sidebar />
+					<aside className="md:col-span-1 p-4 bg-white rounded shadow">
+						<div className="text-center">
+							<Image
+								width={150}
+								height={150}
+								src={user.avatar || "/default_avatar_green.png"}
+								alt="User Avatar"
+								className="rounded-full mx-auto mb-2"
+							/>
+							<h2 className="text-xl font-bold mb-2">{user.username}</h2>
+							<p className="text-gray-600 mb-2">{user.bio}</p>
+							{!edit && (
+								<Link
+									href={`?edit=true`}
+									className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
+								>
+									Edit Profile
+								</Link>
+							)}
+							{edit && (
+								<div className="mt-4 flex flex-col">
+									<UpdateProfileForm
+										username={user.username}
+										bio={user.bio || ""}
+									/>
+									<div className="mt-4">
+										<Link
+											href={`?edit=false`}
+											className="bg-gray-600 text-white px-4 py-2 rounded shadow hover:bg-gray-700"
+										>
+											Go Back
+										</Link>
+									</div>
+								</div>
+							)}
+						</div>
+					</aside>
 					<RecentActivity />
 				</div>
 				<Achievements />
