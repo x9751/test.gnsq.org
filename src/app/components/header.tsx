@@ -2,20 +2,28 @@
 import Link from "next/link";
 import MobileMenu from "./MobileMenu";
 import { getUser } from "@/db/auth";
+import Image from "next/image";
 
 export default async function Header() {
 	const user = await getUser();
 	return (
 		<header className="bg-green-600 p-4 text-white overflow-hidden">
 			<nav className="container mx-auto flex justify-between items-center">
-				<Link href="/" className="text-2xl font-bold">
-					GNSQ
-				</Link>
+				<div className="flex gap-2 items-center">
+					
+					<Link href="/" className="text-2xl font-bold">
+						<Image src="/logo.svg" alt="GNSQ Logo" width={50} height={50} />
+					</Link>
+				</div>
 				<div className="flex items-center gap-4">
 					{user && (
 						<div className="flex items-center gap-2">
 							<span>{user.username}</span>
-							<Link href="/logout" prefetch={false} className="bg-green-700 p-2 rounded-lg">
+							<Link
+								href="/logout"
+								prefetch={false}
+								className="bg-green-700 p-2 rounded-lg"
+							>
 								Logout
 							</Link>
 						</div>

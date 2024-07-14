@@ -13,6 +13,7 @@ interface Database {
 	feed_comments: FeedComment;
 	achievements: Achievement;
 	user_achievements: UserAchievement;
+	events: Events;
 	activities: Activity;
 }
 
@@ -120,6 +121,19 @@ interface UserAchievement {
 	id: Generated<number>;
 	user_id: number;
 	achievement_id: number;
+	created_at: ColumnType<Date, string | undefined, never>;
+	updated_at: ColumnType<Date, string | undefined, never>;
+}
+
+interface Events {
+	id: Generated<number>;
+	name: string;
+	description: string;
+	location: string;
+	date: ColumnType<Date, string | undefined, never>;
+	time: ColumnType<Date, string | undefined, never>;
+	image: string | null;
+	user_id: number;
 	created_at: ColumnType<Date, string | undefined, never>;
 	updated_at: ColumnType<Date, string | undefined, never>;
 }
