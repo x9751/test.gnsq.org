@@ -24,7 +24,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 									<Image
 										width={40}
 										height={40}
-										src="https://via.placeholder.com/40"
+										src="/pirate_logo.jpeg"
 										alt="User Avatar"
 										className="w-10 h-10 rounded-full"
 									/>

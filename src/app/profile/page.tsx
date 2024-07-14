@@ -102,8 +102,8 @@ const RecentActivity = () => (
 );
 
 const achievements = [
-	{ title: "Master Gamer", imgSrc: "https://via.placeholder.com/100" },
-	{ title: "Top Contributor", imgSrc: "https://via.placeholder.com/100" },
+	{ title: "Master Gamer", imgSrc: "/pirate_logo.jpeg" },
+	{ title: "Top Contributor", imgSrc: "/pirate_logo.jpeg" },
 	// Add more achievements as needed
 ];
 

@@ -4,21 +4,40 @@ import Header from "../components/header";
 
 const teamMembers = [
 	{
-		name: "Username1",
-		role: "Founder & Leader",
-		imgSrc: "https://via.placeholder.com/150",
+		name: "Jenkins",
+		role: "Goon Captian",
+		imgSrc: "/pirate_logo.jpeg",
 	},
 	{
-		name: "Username2",
-		role: "Co-Leader & Strategist",
-		imgSrc: "https://via.placeholder.com/150",
+		name: "Cheeto",
+		role: "Goon High Council Godfather",
+		imgSrc: "/pirate_logo.jpeg",
 	},
 	{
-		name: "Username3",
-		role: "Community Manager",
-		imgSrc: "https://via.placeholder.com/150",
+		name: "Troy",
+		role: "Goon High Council VP",
+		imgSrc: "/pirate_logo.jpeg",
 	},
-	// Add more team members as needed
+	{
+		name: "Splitcoin",
+		role: "Goon High Council",
+		imgSrc: "/pirate_logo.jpeg",
+	},
+	{
+		name: "Cevichewey",
+		role: "Goon High Council",
+		imgSrc: "/pirate_logo.jpeg",
+	},
+	{
+		name: "Tortas0441",
+		role: "Goon High Council",
+		imgSrc: "/pirate_logo.jpeg",
+	},
+	{
+		name: "Zeelola",
+		role: "Goon High Council HR",
+		imgSrc: "/pirate_logo.jpeg",
+	},
 ];
 
 export default function AboutUS() {
@@ -29,15 +48,15 @@ export default function AboutUS() {
 				<section className="mb-8">
 					<h2 className="text-3xl font-bold mb-4">About GNSQ</h2>
 					<p className="text-gray-700 mb-4">
-						Welcome to GNSQ, where fun and camaraderie come first! We&apos;re
-						a group of gaming enthusiasts who love to play games, share tips,
-						and enjoy the occasional meme. Join us for exciting gaming sessions,
+						Welcome to GNSQ, where fun and camaraderie come first! We&apos;re a
+						group of gaming enthusiasts who love to play games, share tips, and
+						enjoy the occasional meme. Join us for exciting gaming sessions,
 						forums, and more.
 					</p>
 					<Image
-						src="https://via.placeholder.com/800x400"
+						src="/about_us.webp"
 						alt="Gaming Group"
-						className="w-full rounded shadow"
+						className="w-full rounded shadow max-w-4xl mx-auto"
 						width={800}
 						height={400}
 					/>
@@ -46,8 +65,8 @@ export default function AboutUS() {
 					<h2 className="text-3xl font-bold mb-4">Our Mission</h2>
 					<p className="text-gray-700">
 						Our mission is to build a vibrant and inclusive community for gamers
-						of all skill levels. Whether you&apos;re here to compete, learn, or just
-						hang out, GNSQ is the place for you!
+						of all skill levels. Whether you&apos;re here to compete, learn, or
+						just hang out, GNSQ is the place for you!
 					</p>
 				</section>
 				<section className="mb-8">

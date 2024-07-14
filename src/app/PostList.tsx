@@ -6,19 +6,19 @@ import { useState } from "react";
 const postData = [
 	{
 		username: "User1",
-		avatar: "https://via.placeholder.com/50",
+		avatar: "/pirate_logo.jpeg",
 		content: "This is an example post content. It's engaging and interesting!",
 		timestamp: "2024-07-05T12:00:00Z",
 		comments: [
 			{
 				username: "Commenter1",
-				avatar: "https://via.placeholder.com/40",
+				avatar: "/pirate_logo.jpeg",
 				content: "This is a comment!",
 				timestamp: "2024-07-05T12:30:00Z",
 			},
 			{
 				username: "Commenter2",
-				avatar: "https://via.placeholder.com/40",
+				avatar: "/pirate_logo.jpeg",
 				content: "Another comment!",
 				timestamp: "2024-07-05T12:45:00Z",
 			},
@@ -28,8 +28,7 @@ const postData = [
 ];
 
 const PostList = () => (
-	<section className="p-4 bg-white rounded shadow">
-		<h2 className="text-3xl font-bold mb-4">Recent Posts</h2>
+	<section className="">
 		<div id="post-list" className="space-y-4">
 			{postData.map((post, index) => (
 				<Post
@@ -63,7 +62,7 @@ const Post = ({
 	const toggleComments = () => setShowComments(!showComments);
 
 	return (
-		<article className="p-4 bg-gray-100 rounded shadow">
+		<article className="p-4 bg-white rounded shadow">
 			<div className="flex items-start space-x-4">
 				<Image
 					src={avatar}

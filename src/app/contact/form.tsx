@@ -1,34 +1,15 @@
 "use client";
-import { useState } from "react";
+import { useFormState, useFormStatus } from "react-dom";
+import { submitForm } from "./actions";
 
-export default function ContactForm() {
-	const [formData, setFormData] = useState({
-		name: "",
-		email: "",
-		subject: "",
-		message: "",
-	});
-	const [formStatus, setFormStatus] = useState("");
 
-	const handleChange = (
-		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-	) => {
-		const { id, value } = e.target;
-		setFormData((prevData) => ({ ...prevData, [id]: value }));
-	};
+export default function Form() {
+ const [formStatus, formAction] = useFormState(submitForm, { success: false, message: "" });
 
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		// Replace with form submission logic (e.g., API call)
-		setFormStatus("Your message has been sent!");
-	};
-
-	return (
-		<section className="p-4 bg-white rounded shadow">
-			<h2 className="text-3xl font-bold mb-4">Contact Us</h2>
-			<form
-				onSubmit={handleSubmit}
+  return (
+    <form
 				className="grid grid-cols-1 md:grid-cols-2 gap-4"
+        action={formAction}
 			>
 				<div className="md:col-span-1">
 					<label htmlFor="name" className="block mb-2 text-gray-700">
@@ -37,8 +18,6 @@ export default function ContactForm() {
 					<input
 						type="text"
 						id="name"
-						value={formData.name}
-						onChange={handleChange}
 						className="w-full p-2 border rounded"
 						required
 					/>
@@ -50,8 +29,6 @@ export default function ContactForm() {
 					<input
 						type="email"
 						id="email"
-						value={formData.email}
-						onChange={handleChange}
 						className="w-full p-2 border rounded"
 						required
 					/>
@@ -63,8 +40,6 @@ export default function ContactForm() {
 					<input
 						type="text"
 						id="subject"
-						value={formData.subject}
-						onChange={handleChange}
 						className="w-full p-2 border rounded"
 						required
 					/>
@@ -75,23 +50,26 @@ export default function ContactForm() {
 					</label>
 					<textarea
 						id="message"
-						value={formData.message}
-						onChange={handleChange}
 						className="w-full p-2 border rounded"
 						rows={5}
 						required
 					></textarea>
 				</div>
+        {formStatus.success && <p className="mt-4 text-green-600">{formStatus.message}</p>}
+        {!formStatus.success && <p className="mt-4 text-red-600">{formStatus.message}</p>}
 				<div className="md:col-span-2">
-					<button
-						type="submit"
-						className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
-					>
-						Send Message
-					</button>
+					<SubmitButton />
 				</div>
 			</form>
-			{formStatus && <p className="mt-4 text-green-600">{formStatus}</p>}
-		</section>
-	);
-};
+  )
+}
+
+function SubmitButton() {
+  const formStatus = useFormStatus();
+
+  return (
+    <button type="submit" className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700">
+      {formStatus.pending ? "Sending..." : "Send Message"}
+    </button>
+  )
+}

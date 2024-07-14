@@ -1,13 +1,16 @@
 import Footer from "../components/footer";
 import Header from "../components/header";
-import ContactForm from "./form";
+import Form from "./form";
 
 export default function AboutUS() {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Header />
 			<div className="container mx-auto p-4">
-				<ContactForm />
+			<section className="p-4 bg-white rounded shadow">
+			<h2 className="text-3xl font-bold mb-4">Contact Us</h2>
+			<Form />
+		</section>
 				<section className="mt-8 p-4 bg-white rounded shadow">
 					<h2 className="text-3xl font-bold mb-4">Our Contact Details</h2>
 					<ul className="text-gray-700">
