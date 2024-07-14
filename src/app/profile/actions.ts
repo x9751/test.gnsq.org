@@ -1,6 +1,7 @@
 "use server";
 import db from "@/db/db";
 import { getUser } from "@/db/auth";
+import { revalidatePath } from "next/cache";
 
 export async function updateProfile(prev: any, formData: FormData) {
 	const user = await getUser();
@@ -26,7 +27,7 @@ export async function updateProfile(prev: any, formData: FormData) {
 			message: e.message,
 		};
 	}
-
+	revalidatePath("/profile");
 	return {
 		message: "Profile updated",
 	};

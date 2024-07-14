@@ -38,7 +38,7 @@ export default async function Profile({
 							{!edit && (
 								<Link
 									href={`?edit=true`}
-									className="bg-green-600 text-white px-4 py-2 rounded shadow hover:bg-green-700"
+									className="bg-green-600 transition-colors duration-300 text-white px-4 py-2 rounded shadow hover:bg-green-700 active:bg-green-400"
 								>
 									Edit Profile
 								</Link>
@@ -52,9 +52,9 @@ export default async function Profile({
 									<div className="mt-4">
 										<Link
 											href={`?edit=false`}
-											className="bg-gray-600 text-white px-4 py-2 rounded shadow hover:bg-gray-700"
+											className="bg-orange-600 transition-colors duration-300 text-white px-4 py-2 rounded shadow hover:bg-orange-700 active:bg-orange-400"
 										>
-											Go Back
+											Finish
 										</Link>
 									</div>
 								</div>

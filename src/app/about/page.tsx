@@ -10,7 +10,7 @@ const teamMembers = [
 	},
 	{
 		name: "Cheeto",
-		role: "Goon High Council Godfather",
+		role: "Goon High Council GodFather",
 		imgSrc: "/pirate_logo.jpeg",
 	},
 	{
@@ -20,17 +20,17 @@ const teamMembers = [
 	},
 	{
 		name: "Splitcoin",
-		role: "Goon High Council",
+		role: "Goon High Council SpitRoast",
 		imgSrc: "/pirate_logo.jpeg",
 	},
 	{
 		name: "Cevichewey",
-		role: "Goon High Council",
+		role: "Goon High Council BigGulp",
 		imgSrc: "/pirate_logo.jpeg",
 	},
 	{
 		name: "Tortas0441",
-		role: "Goon High Council",
+		role: "Goon High Council TeamKiller",
 		imgSrc: "/pirate_logo.jpeg",
 	},
 	{
@@ -54,7 +54,7 @@ export default function AboutUS() {
 						forums, and more.
 					</p>
 					<Image
-						src="/about_us.webp"
+						src="/community_about_us.webp"
 						alt="Gaming Group"
 						className="w-full rounded shadow max-w-4xl mx-auto"
 						width={800}

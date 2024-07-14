@@ -55,7 +55,7 @@ function SubmitButton() {
 		<button
 			type="submit"
 			disabled={pending}
-			className={`bg-green-500 w-full text-white p-2 font-bold text-sm rounded-md ${
+			className={`bg-green-500 transition-colors duration-300 hover:bg-green-700 active:bg-green-400 w-full text-white p-2 font-bold text-sm rounded-md ${
 				pending ? "opacity-50 cursor-not-allowed" : ""
 			}`}
 		>
