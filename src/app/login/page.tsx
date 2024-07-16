@@ -22,7 +22,7 @@ export default async function Login({
 			<Header />
 			<div className="flex flex-col items-center justify-center">
 				<div className="mx-auto w-full max-w-lg p-4  mt-20">
-					<LoginForm />
+					<LoginForm redirect={red} />
 					<p className="mt-4 text-sm text-gray-500">
 						Don&apos;t have an account?{" "}
 						<Link

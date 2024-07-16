@@ -40,7 +40,7 @@ const teamMembers = [
 	},
 ];
 
-export default function AboutUS() {
+export default async function AboutUS() {
 	return (
 		<div className="flex min-h-screen flex-col">
 			<Header />

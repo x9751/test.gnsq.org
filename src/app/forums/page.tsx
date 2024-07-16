@@ -16,7 +16,6 @@ export default async function Forum({
 			"base64"
 		).toString("utf8")
 	);
-	await new Promise((resolve) => setTimeout(resolve, 3000));
 	return (
 		<section className="w-full ">
 			<div className="bg-white p-4 rounded shadow mb-4">

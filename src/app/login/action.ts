@@ -4,10 +4,12 @@ import crypto from "crypto";
 import db from "@/db/db";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { revalidatePath } from "next/cache";
 
 export async function login(prev: any, formData: FormData) {
 	const email = formData.get("email");
 	const password = formData.get("password");
+	const redirectUrl = formData.get("redirect");
 	if (!email || !password) {
 		return {
 			message: "Email and password are required",
@@ -49,7 +51,8 @@ export async function login(prev: any, formData: FormData) {
 		path: "/",
 		maxAge: 60 * 60 * 24 * 30,
 	});
-	redirect("/");
+	revalidatePath(redirectUrl ? redirectUrl.toString() : "/");
+	redirect(redirectUrl ? redirectUrl.toString() : "/");
 }
 
 function validateEmail(email: string) {

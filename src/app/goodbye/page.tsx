@@ -1,14 +1,8 @@
-import { revalidatePath } from "next/cache";
-import { cookies } from "next/headers";
-import Header from "../components/header";
-import Footer from "../components/footer";
 import Link from "next/link";
+import Footer from "../components/footer";
+import Header from "../components/header";
 
-export default function Logout() {
-	const cookieStore = cookies();
-	cookieStore.delete("session_token");
-	revalidatePath("/");
-
+export default function Goodbye() {
 	return (
 		<main className="flex min-h-screen flex-col">
 			<Header />

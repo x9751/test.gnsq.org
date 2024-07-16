@@ -8,13 +8,14 @@ const initialState = {
 	message: "",
 };
 
-export default function LoginForm() {
+export default function LoginForm({ redirect }: { redirect: string }) {
 	const [state, formAction] = useFormState(login, initialState);
 	return (
 		<form
 			className="flex flex-col gap-2 items-center p-4 bg-white rounded-lg shadow-md"
 			action={formAction}
 		>
+			<input type="hidden" name="redirect" value={redirect} />
 			<input
 				name="email"
 				type="email"
