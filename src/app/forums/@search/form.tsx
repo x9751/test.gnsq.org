@@ -4,13 +4,13 @@ import Select from "@/app/components/Select";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useCallback, useEffect, useMemo, useState } from "react";
 
-const tempCategories = [
-	{ id: 1, name: "General Discussion" },
-	{ id: 2, name: "Technical Support" },
-	{ id: 3, name: "Sales" },
-	{ id: 4, name: "Marketing" },
-	{ id: 5, name: "Customer Service" },
-];
+// const tempCategories = [
+// 	{ id: 1, name: "General Discussion" },
+// 	{ id: 2, name: "Technical Support" },
+// 	{ id: 3, name: "Sales" },
+// 	{ id: 4, name: "Marketing" },
+// 	{ id: 5, name: "Customer Service" },
+// ];
 
 type SearchFormProps = {
 	popular: boolean;
@@ -47,7 +47,11 @@ function delayedSearch(
 	}, delay);
 }
 
-export default function SearchForm() {
+export default function SearchForm({
+	categories,
+}: {
+	categories: { id: number; name: string }[];
+}) {
 	const router = useRouter();
 	const searchParams = useSearchParams();
 
@@ -93,10 +97,10 @@ export default function SearchForm() {
 		if (selectedCategories.length === 0) {
 			return `Search`;
 		}
-		const categories = tempCategories.filter((category) =>
+		const filteredCategories = categories.filter((category) =>
 			selectedCategories.includes(category.id)
 		);
-		return `Search ${categories.map((category) => category.name).join(", ")}`;
+		return `Search ${filteredCategories.map((category) => category.name).join(", ")}`;
 	}, [selectedCategories]);
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -246,7 +250,12 @@ export default function SearchForm() {
 						<span className="absolute w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-b-[10px] border-b-white"></span>
 					</div>
 					<label className="flex items-center gap-2 p-2 pl-4 border-b">
-						<input type="checkbox" disabled={loading && filtering} checked={popular} onChange={togglePopular} />
+						<input
+							type="checkbox"
+							disabled={loading && filtering}
+							checked={popular}
+							onChange={togglePopular}
+						/>
 						<span>Popular</span>
 					</label>
 					<div className="flex items-center gap-2 p-2 pl-4 border-b">
@@ -290,7 +299,7 @@ export default function SearchForm() {
 						{showCategories && (
 							<div className="absolute border z-30 border-gray-200 bottom-0 translate-y-full right-0 left-0 bg-white rounded-lg shadow-lg">
 								<ul className="p-2">
-									{tempCategories.map((category) => (
+									{categories.map((category) => (
 										<li key={category.id}>
 											<label className="flex gap-2 cursor-pointer py-1 items-center">
 												<input

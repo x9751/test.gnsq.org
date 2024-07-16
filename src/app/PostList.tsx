@@ -2,42 +2,24 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import CreatePost from "./CreatePost";
+import bbcodeToHtml from "./utils/bbcodeToHtml";
 
-const postData = [
-	{
-		username: "User1",
-		avatar: "/pirate_logo.jpeg",
-		content: "This is an example post content. It's engaging and interesting!",
-		timestamp: "2024-07-05T12:00:00Z",
-		comments: [
-			{
-				username: "Commenter1",
-				avatar: "/pirate_logo.jpeg",
-				content: "This is a comment!",
-				timestamp: "2024-07-05T12:30:00Z",
-			},
-			{
-				username: "Commenter2",
-				avatar: "/pirate_logo.jpeg",
-				content: "Another comment!",
-				timestamp: "2024-07-05T12:45:00Z",
-			},
-		],
-	},
-	// Add more post data as needed
-];
 
-const PostList = () => (
-	<section className="">
+const PostList = ({ post }: { post: any[] }) => (
+	<section className="flex flex-col gap-4">
+		<div className="flex justify-between">
+			<h1 className="text-2xl font-bold">Feed</h1>
+			<CreatePost />
+		</div>
 		<div id="post-list" className="space-y-4">
-			{postData.map((post, index) => (
+			{post.map((post, index) => (
 				<Post
 					key={index}
 					username={post.username}
 					avatar={post.avatar}
 					content={post.content}
-					timestamp={post.timestamp}
-					comments={post.comments}
+					timestamp={post.created_at}
 				/>
 			))}
 		</div>
@@ -49,13 +31,11 @@ const Post = ({
 	avatar,
 	content,
 	timestamp,
-	comments,
 }: {
 	username: string;
 	avatar: string;
 	content: string;
 	timestamp: string;
-	comments: any[];
 }) => {
 	const [showComments, setShowComments] = useState(false);
 
@@ -65,7 +45,7 @@ const Post = ({
 		<article className="p-4 bg-white rounded shadow">
 			<div className="flex items-start space-x-4">
 				<Image
-					src={avatar}
+					src={avatar ?? "/default_avatar_green.png"}
 					alt={`${username}'s avatar`}
 					width={48}
 					height={48}
@@ -73,7 +53,7 @@ const Post = ({
 				/>
 				<div>
 					<h3 className="font-bold text-lg">{username}</h3>
-					<p className="text-gray-700">{content}</p>
+					<p className="text-gray-700"><span dangerouslySetInnerHTML={{ __html: bbcodeToHtml(content) }} /></p>
 					<div className="flex items-center space-x-4 text-sm text-gray-500 mt-2">
 						<time dateTime={timestamp}>
 							{new Date(timestamp).toLocaleDateString()}
@@ -84,17 +64,7 @@ const Post = ({
 						</button>
 					</div>
 					{showComments && (
-						<div className="mt-4">
-							{comments.map((comment, index) => (
-								<Comment
-									key={index}
-									username={comment.username}
-									avatar={comment.avatar}
-									content={comment.content}
-									timestamp={comment.timestamp}
-								/>
-							))}
-						</div>
+						null
 					)}
 				</div>
 			</div>

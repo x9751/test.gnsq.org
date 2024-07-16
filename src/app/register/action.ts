@@ -26,10 +26,6 @@ export async function register(prev: any, formData: FormData) {
 		};
 	}
 	const { hash, salt } = hashPassword(password.toString());
-	console.log("username", username.toString());
-	console.log("email", email.toString());
-	console.log("hash", hash);
-	console.log("salt", salt);
 	try {
 		await db
 			.insertInto("users")

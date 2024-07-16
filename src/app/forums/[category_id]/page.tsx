@@ -1,24 +1,12 @@
 import db from "@/db/db";
-import Highlight from "@/app/components/Highlight";
-import Link from "next/link";
-import bbcodeToHtml from "../utils/bbcodeToHtml";
 
-export default async function Forum({
-	searchParams,
-}: {
-	searchParams: { [key: string]: string | string[] | undefined };
-}) {
-	const popular = (searchParams.popular as string) || "true";
-	const search = (searchParams.search as string) || "";
-	const order = (searchParams.order as string) || "asc";
-	const page = (searchParams.page as string) || "1";
-	const limit = (searchParams.limit as string) || "10";
-	const categories = JSON.parse(
-		Buffer.from(
-			(searchParams?.categories as string) || "W10=",
-			"base64"
-		).toString("utf8")
-	);
+import Link from "next/link";
+import Highlight from "@/app/components/Highlight";
+import bbcodeToHtml from "@/app/utils/bbcodeToHtml";
+
+export default async function CategoryPage({ params }: { params: { category_id: string } }) {
+	const category_id = parseInt(params.category_id);
+
 	let threadQuery = db
 		.selectFrom("threads")
 		.select([
@@ -33,16 +21,10 @@ export default async function Forum({
 		])
 		.leftJoin("users", "users.id", "threads.user_id")
 		.leftJoin("categories", "categories.id", "threads.category_id")
-		.orderBy(`threads.created_at ${order === "asc" ? "asc" : "desc"}`)
-		.limit(parseInt(limit))
-		.offset((parseInt(page) - 1) * parseInt(limit))
-		.$if(search !== "", (q) => q.where("title", "ilike", `%${search}%`))
-		.$if(popular === "true", (q) => q.where("is_popular", "=", true))
-		.$if(categories.length > 0, (q) =>
-			q.where("category_id", "in", categories)
-		);
+		.where("threads.category_id", "=", category_id);
 
-	const threads = (await threadQuery.execute()) as any;
+	const threads = await threadQuery.execute() as any[];
+
 	return (
 		<section className="w-full ">
 			{threads.map(
@@ -58,7 +40,7 @@ export default async function Forum({
 				}) => (
 					<div className="bg-white p-4 rounded shadow mb-4">
 						<h3 className="text-xl font-bold mb-2">
-							<Highlight text={thread.title} highlight={search} />
+							<Highlight text={thread.title} highlight={""} />
 						</h3>
 						<p className="text-gray-700 mb-2">
 							Started by{" "}

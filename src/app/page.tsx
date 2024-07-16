@@ -3,15 +3,58 @@ import Footer from "./components/footer";
 import PostList from "./PostList";
 import { getUser } from "@/db/auth";
 import Link from "next/link";
+import db from "@/db/db";
 
 export default async function Home() {
 	const user = await getUser();
+	let post;
+	if (user) {
+		const userFeeds = await db
+			.selectFrom("feeds")
+			.select([
+				"feeds.id",
+				"feeds.content",
+				"feeds.created_at",
+				"feeds.user_id",
+				"users.username",
+				"users.avatar",
+			])
+			.innerJoin("users", "users.id", "feeds.user_id")
+			.where("feeds.user_id", "=", user.id)
+			.execute();
+
+		// Fetch posts from followed users
+		const followedFeeds = await db
+			.selectFrom("feeds")
+			.select([
+				"feeds.id",
+				"feeds.content",
+				"feeds.created_at",
+				"feeds.user_id",
+				"users.username",
+				"users.avatar",
+			])
+			.innerJoin(
+				"feed_follows",
+				"feed_follows.following_user_id",
+				"feeds.user_id"
+			)
+			.innerJoin("users", "users.id", "feeds.user_id")
+			.where("feed_follows.user_id", "=", user.id)
+			.execute();
+
+		post = [...userFeeds, ...followedFeeds].sort(
+			(a, b) =>
+				new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+		);
+		console.log(post);
+	}
 
 	return (
 		<main className="flex min-h-screen flex-col">
 			<Header />
 			<div className="w-full max-w-5xl mx-auto p-4">
-				{user ? <PostList /> : <GuestView />}
+				{user ? <PostList post={post} /> : <GuestView />}
 			</div>
 			<Footer />
 		</main>
