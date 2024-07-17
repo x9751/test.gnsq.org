@@ -13,6 +13,7 @@ export default async function Layout({
 }) {
 	const thread = await db
 		.selectFrom("threads")
+		// @ts-ignore
 		.select([
 			"threads.id",
 			"threads.title",

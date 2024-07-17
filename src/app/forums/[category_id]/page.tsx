@@ -9,6 +9,7 @@ export default async function CategoryPage({ params }: { params: { category_id: 
 
 	let threadQuery = db
 		.selectFrom("threads")
+		// @ts-ignore
 		.select([
 			"threads.id",
 			"threads.title",
@@ -38,7 +39,7 @@ export default async function CategoryPage({ params }: { params: { category_id: 
 					category_name: string;
 					username: string;
 				}) => (
-					<div className="bg-white p-4 rounded shadow mb-4">
+					<div className="bg-white p-4 rounded shadow mb-4" key={thread.id}>
 						<h3 className="text-xl font-bold mb-2">
 							<Highlight text={thread.title} highlight={""} />
 						</h3>

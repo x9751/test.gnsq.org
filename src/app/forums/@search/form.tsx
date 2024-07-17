@@ -136,6 +136,10 @@ export default function SearchForm({
 			) {
 				return;
 			}
+			if (search.length < 3) {
+				setSearching(false);
+				return;
+			}
 			setSearching(true);
 			delayedSearch(
 				search,

@@ -1,10 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import CreatePost from "./CreatePost";
 import bbcodeToHtml from "./utils/bbcodeToHtml";
 
+import CreateComment from "./CreateComment";
+
+const Comments = dynamic(() => import("./Comments"), { loading: () => <div className="text-gray-500 animate-pulse">Loading Comments...</div> });
 
 const PostList = ({ post }: { post: any[] }) => (
 	<section className="flex flex-col gap-4">
@@ -20,6 +24,7 @@ const PostList = ({ post }: { post: any[] }) => (
 					avatar={post.avatar}
 					content={post.content}
 					timestamp={post.created_at}
+					postId={post.id}
 				/>
 			))}
 		</div>
@@ -31,11 +36,13 @@ const Post = ({
 	avatar,
 	content,
 	timestamp,
+	postId,
 }: {
 	username: string;
 	avatar: string;
 	content: string;
 	timestamp: string;
+	postId: number;
 }) => {
 	const [showComments, setShowComments] = useState(false);
 
@@ -43,7 +50,7 @@ const Post = ({
 
 	return (
 		<article className="p-4 bg-white rounded shadow">
-			<div className="flex items-start space-x-4">
+			<div className="flex items-start space-x-4 w-full">
 				<Image
 					src={avatar ?? "/default_avatar_green.png"}
 					alt={`${username}'s avatar`}
@@ -51,7 +58,7 @@ const Post = ({
 					height={48}
 					className="rounded-full"
 				/>
-				<div>
+				<div className="w-full">
 					<h3 className="font-bold text-lg">{username}</h3>
 					<p className="text-gray-700"><span dangerouslySetInnerHTML={{ __html: bbcodeToHtml(content) }} /></p>
 					<div className="flex items-center space-x-4 text-sm text-gray-500 mt-2">
@@ -64,39 +71,18 @@ const Post = ({
 						</button>
 					</div>
 					{showComments && (
-						null
+						<div className="mt-4 flex flex-col gap-2 border-t border-gray-200 pt-4">
+							<Comments postId={postId} />
+							<div className="mt-4 w-full max-w-[600px] flex flex-col">
+								<h4 className="text-lg font-bold">Create Comment</h4>
+								<CreateComment postId={postId} />
+							</div>
+						</div>
 					)}
 				</div>
 			</div>
 		</article>
 	);
 };
-
-const Comment = ({
-	username,
-	avatar,
-	content,
-	timestamp,
-}: {
-	username: string;
-	avatar: string;
-	content: string;
-	timestamp: string;
-}) => (
-	<div className="flex items-start space-x-4 mt-4">
-		<img
-			src={avatar}
-			alt={`${username}'s avatar`}
-			className="w-8 h-8 rounded-full"
-		/>
-		<div>
-			<h4 className="font-bold text-md">{username}</h4>
-			<p className="text-gray-700">{content}</p>
-			<time className="text-sm text-gray-500" dateTime={timestamp}>
-				{new Date(timestamp).toLocaleDateString()}
-			</time>
-		</div>
-	</div>
-);
 
 export default PostList;

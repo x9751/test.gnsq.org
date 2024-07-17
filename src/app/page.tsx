@@ -7,10 +7,11 @@ import db from "@/db/db";
 
 export default async function Home() {
 	const user = await getUser();
-	let post;
+	let post: any;
 	if (user) {
 		const userFeeds = await db
 			.selectFrom("feeds")
+			// @ts-ignore
 			.select([
 				"feeds.id",
 				"feeds.content",
@@ -26,6 +27,7 @@ export default async function Home() {
 		// Fetch posts from followed users
 		const followedFeeds = await db
 			.selectFrom("feeds")
+			// @ts-ignore
 			.select([
 				"feeds.id",
 				"feeds.content",
@@ -47,7 +49,6 @@ export default async function Home() {
 			(a, b) =>
 				new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
 		);
-		console.log(post);
 	}
 
 	return (

@@ -11,6 +11,7 @@ export default async function Page({
 	await new Promise((resolve) => setTimeout(resolve, 2000));
 	const comments = (await db
 		.selectFrom("thread_posts")
+		// @ts-ignore
 		.select([
 			"thread_posts.id",
 			"thread_posts.content",

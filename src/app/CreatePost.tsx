@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import Select from "./components/Select";
 import BBCode from "./components/BBCode";
 import { useFormStatus, useFormState } from "react-dom";
 import { createPost } from "./actions";

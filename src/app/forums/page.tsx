@@ -21,6 +21,7 @@ export default async function Forum({
 	);
 	let threadQuery = db
 		.selectFrom("threads")
+		// @ts-ignore
 		.select([
 			"threads.id",
 			"threads.title",
@@ -34,7 +35,6 @@ export default async function Forum({
 		.leftJoin("users", "users.id", "threads.user_id")
 		.leftJoin("categories", "categories.id", "threads.category_id")
 		.orderBy(`threads.created_at ${order === "asc" ? "asc" : "desc"}`)
-		.limit(parseInt(limit))
 		.offset((parseInt(page) - 1) * parseInt(limit))
 		.$if(search !== "", (q) => q.where("title", "ilike", `%${search}%`))
 		.$if(popular === "true", (q) => q.where("is_popular", "=", true))
@@ -42,7 +42,9 @@ export default async function Forum({
 			q.where("category_id", "in", categories)
 		);
 
-	const threads = (await threadQuery.execute()) as any;
+	const totalThreads = (await threadQuery.execute()).length;
+
+	const threads = (await threadQuery.limit(parseInt(limit)).execute()) as any;
 	return (
 		<section className="w-full ">
 			{threads.map(
@@ -56,7 +58,7 @@ export default async function Forum({
 					category_name: string;
 					username: string;
 				}) => (
-					<div className="bg-white p-4 rounded shadow mb-4">
+					<div className="bg-white p-4 rounded shadow mb-4" key={thread.id}>
 						<h3 className="text-xl font-bold mb-2">
 							<Highlight text={thread.title} highlight={search} />
 						</h3>
@@ -89,35 +91,31 @@ export default async function Forum({
 					</div>
 				)
 			)}
+			{threads.length === 0 && (
+				<p className="text-gray-700 text-center mt-4 text-xl font-bold">
+					No threads found
+				</p>
+			)}
 
-			{/* <nav className="mt-4">
+			<nav className="mt-4">
 				<ul className="flex justify-center space-x-2">
-					<li>
-						<a
-							href="#"
-							className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-						>
-							1
-						</a>
-					</li>
-					<li>
-						<a
-							href="#"
-							className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-						>
-							2
-						</a>
-					</li>
-					<li>
-						<a
-							href="#"
-							className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
-						>
-							3
-						</a>
-					</li>
+					{Array.from(
+						{ length: Math.ceil(totalThreads / parseInt(limit)) },
+						(_, i) => (
+							<li key={i}>
+								<Link
+									href={`/forums?page=${
+										i + 1
+									}&limit=${limit}&search=${search}&order=${order}&popular=${popular}&categories=${Buffer.from(JSON.stringify(categories)).toString("base64")}`}
+									className="px-3 py-1 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+								>
+									{i + 1}
+								</Link>
+							</li>
+						)
+					)}
 				</ul>
-			</nav> */}
+			</nav>
 		</section>
 	);
 }

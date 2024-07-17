@@ -10,6 +10,7 @@ export default async function ThreadPage({
 }) {
 	const thread = await db
 		.selectFrom("threads")
+		// @ts-ignore
 		.select([
 			"threads.id",
 			"threads.title",
