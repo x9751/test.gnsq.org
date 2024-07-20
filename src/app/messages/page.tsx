@@ -1,6 +1,51 @@
+import { getUser } from "@/db/auth";
+import db from "@/db/db";
 import Image from "next/image";
+import { redirect } from "next/navigation";
 
-export default function Messages() {
+type Room = {
+	room_id: number;
+	room_name: string | null;
+	last_message: {
+		content: string;
+		user_id: number;
+		username: string;
+		avatar: string | null;
+		created_at: Date;
+	};
+};
+
+export default async function Messages() {
+	const user = await getUser();
+	if (!user) {
+		redirect("/login?redirect=/messages");
+	}
+	const rooms = await db
+		.selectFrom("user_rooms")
+		.leftJoin("rooms", "rooms.id", "user_rooms.room_id")
+		.select(["user_rooms.room_id", "rooms.name as room_name"])
+		.where("user_rooms.user_id", "=", user.id)
+		.execute() as Room[];
+	for (const room of rooms) {
+		const lastMessage = await db
+			.selectFrom("messages")
+			.innerJoin("users", "users.id", "messages.user_id")
+			.select([
+				"messages.created_at",
+				"messages.content",
+				"messages.user_id",
+				"users.username as username",
+				"users.avatar as avatar",
+			])
+			.where("room_id", "=", room.room_id)
+			.orderBy("messages.created_at", "desc")
+			.limit(1)
+			.execute();
+		room.last_message = lastMessage[0]!;
+	}
+	rooms.sort((a, b) => {
+		return new Date(b.last_message.created_at).getTime() - new Date(a.last_message.created_at).getTime();
+	});
 	return (
 		<>
 			<div className="hidden md:flex">
@@ -16,27 +61,34 @@ export default function Messages() {
 						</button>
 					</div>
 					<ul className="transition-all duration-300 block">
-						<li className="mb-2">
-							<a
-								href="/messages/123"
-								className="flex items-center space-x-2 text-green-600 hover:underline"
-							>
-								<Image
-									width={40}
-									height={40}
-									src="https://via.placeholder.com/40"
-									alt="User Avatar"
-									className="w-10 h-10 rounded-full"
-								/>
-								<div>
-									<p className="font-bold">User123</p>
-									<p className="text-sm text-gray-600">
-										Last message preview...
-									</p>
-								</div>
-							</a>
-						</li>
-					</ul>
+							{rooms.length === 0 && (
+								<li className="mb-2">
+									<p className="text-gray-600">No conversations</p>
+								</li>
+							)}
+							{rooms.map((room) => (
+								<li className="mb-2" key={room.room_id}>
+									<a
+										href={`/messages/${room.room_id}`}
+										className="flex items-center space-x-2 text-green-600 hover:underline"
+									>
+										<Image
+											width={40}
+											height={40}
+											src={room.last_message.avatar || "/pirate_logo.jpeg"}
+											alt="User Avatar"
+											className="w-10 h-10 rounded-full"
+										/>
+										<div>
+											<p className="font-bold">{room.room_name}</p>
+											<p className="text-sm text-gray-600">
+												{room.last_message.content}
+											</p>
+										</div>
+									</a>
+								</li>
+							))}
+						</ul>
 				</section>
 			</div>
 		</>

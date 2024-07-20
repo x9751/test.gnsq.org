@@ -71,7 +71,7 @@ export default function MobileMenu() {
 						</Link>
 					</li>
 					<li>
-						<Link href="/profile" className="hover:underline p-4">
+						<Link href="/me" className="hover:underline p-4">
 							Profile
 						</Link>
 					</li>

@@ -9,10 +9,10 @@ export async function GET(req: NextRequest) {
 
 	const comments = await db
 		.selectFrom("feed_comments")
-		// @ts-ignore
+		.leftJoin("users", "users.id", "feed_comments.user_id")
 		.select(["feed_comments.id", "feed_comments.content", "feed_comments.created_at", "users.username", "users.avatar"])
 		.where("feed_id", "=", Number(postId))
-		.leftJoin("users", "users.id", "feed_comments.user_id")
+		
 		.execute();
 	console.log(comments);
 	return NextResponse.json(comments);

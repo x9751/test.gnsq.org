@@ -17,12 +17,16 @@ export default function LoginForm({ redirect }: { redirect: string }) {
 		>
 			<input type="hidden" name="redirect" value={redirect} />
 			<input
+				id="email"
+				autoComplete="email"
 				name="email"
 				type="email"
 				placeholder="Email"
 				className="w-full p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
 			/>
 			<input
+				id="password"
+				autoComplete="password"
 				name="password"
 				type="password"
 				placeholder="Password"

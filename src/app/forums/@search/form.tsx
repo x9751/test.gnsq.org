@@ -100,7 +100,9 @@ export default function SearchForm({
 		const filteredCategories = categories.filter((category) =>
 			selectedCategories.includes(category.id)
 		);
-		return `Search ${filteredCategories.map((category) => category.name).join(", ")}`;
+		return `Search ${filteredCategories
+			.map((category) => category.name)
+			.join(", ")}`;
 	}, [selectedCategories]);
 
 	const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -227,7 +229,7 @@ export default function SearchForm({
 					stroke="currentColor"
 					viewBox="0 0 24 24"
 					xmlns="http://www.w3.org/2000/svg"
-					className={`w-6 h-6 text-black ${
+					className={`w-6 h-6 text-white ${
 						loading && filtering ? "animate-[spin_500ms_linear_infinite]" : ""
 					}`}
 				>

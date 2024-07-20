@@ -1,6 +1,40 @@
 import Link from "next/link";
 
-export default function Messages() {
+import db from "@/db/db";
+import { redirect } from "next/navigation";
+import RespondForm from "./Respond";
+import { getUser } from "@/db/auth";
+
+export default async function Messages({
+	params,
+}: {
+	params: { room_id: string };
+}) {
+	const user = await getUser();
+	if (!user) redirect("/login?redirect=/messages/[room_id]");
+	const room = await db
+		.selectFrom("user_rooms")
+		.leftJoin("users", "users.id", "user_rooms.user_id")
+		.leftJoin("rooms", "rooms.id", "user_rooms.room_id")
+		.select(["rooms.id", "rooms.name", "users.username"])
+		.where("rooms.id", "=", Number(params.room_id))
+		.executeTakeFirst();
+	if (!room) redirect("/messages");
+
+	const messages = await db
+		.selectFrom("messages")
+		.innerJoin("users", "users.id", "messages.user_id")
+		.select(({ eb, selectFrom, or }) => [
+			"messages.id",
+			"messages.content",
+			"messages.created_at",
+			"messages.user_id",
+			"users.username",
+			"users.avatar",
+			eb("messages.user_id", "=", user.id).as("is_me"),
+		])
+		.where("room_id", "=", Number(params.room_id))
+		.execute();
 	return (
 		<section className="w-full sm:w-3/4 p-4 bg-white rounded shadow flex flex-col">
 			<Link href="/messages">
@@ -23,27 +57,34 @@ export default function Messages() {
 					</svg>
 				</button>
 			</Link>
-			<div className="flex-1 overflow-auto p-4">
-				<div className="mb-4">
-					<p className="text-sm text-gray-600">
-						User123 <time dateTime="2024-07-05T12:00">12:00 PM</time>
-					</p>
-					<p className="bg-gray-200 p-2 rounded">Hello! How are you?</p>
-				</div>
+
+			<div className="flex-1 overflow-auto max-h-[80vh] p-4">
+				{messages.map((message) => (
+					<div key={message.id} className="mb-4">
+						<p className="text-sm text-gray-600">
+							<Link href={`/profile/${message.username}`} className="hover:underline">{message.username}</Link>{" "}
+							<time
+								className="text-gray-400 text-xs"
+								dateTime={message.created_at.toString()}
+							>
+								{new Date(message.created_at).toLocaleString()}
+							</time>
+							{message.is_me && (
+								<span className="text-xs text-gray-400"> (You)</span>
+							)}
+						</p>
+						<p
+							className={`${
+								message.is_me ? "bg-blue-500 " : "bg-green-500"
+							} p-2 rounded text-white`}
+						>
+							{message.content}
+						</p>
+					</div>
+				))}
 			</div>
-			<form className="flex items-center p-4 border-t">
-				<input
-					type="text"
-					placeholder="Type your message..."
-					className="flex-1 p-2 border rounded"
-				/>
-				<button
-					type="submit"
-					className="bg-green-600 text-white p-2 rounded ml-2"
-				>
-					Send
-				</button>
-			</form>
+
+			<RespondForm room_id={params.room_id} />
 		</section>
 	);
 }

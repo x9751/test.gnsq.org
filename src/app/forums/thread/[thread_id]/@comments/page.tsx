@@ -11,7 +11,8 @@ export default async function Page({
 	await new Promise((resolve) => setTimeout(resolve, 2000));
 	const comments = (await db
 		.selectFrom("thread_posts")
-		// @ts-ignore
+		.leftJoin("users", "users.id", "thread_posts.user_id")
+		.leftJoin("threads", "threads.id", "thread_posts.thread_id")
 		.select([
 			"thread_posts.id",
 			"thread_posts.content",
@@ -21,8 +22,7 @@ export default async function Page({
 			"threads.title as title",
 		])
 		.where("thread_posts.thread_id", "=", Number(params.thread_id))
-		.leftJoin("users", "users.id", "thread_posts.user_id")
-		.leftJoin("threads", "threads.id", "thread_posts.thread_id")
+
 		.execute()) as any[];
 
 	if (comments.length === 0) {
@@ -48,7 +48,10 @@ export default async function Page({
 							height={50}
 							className="rounded-full"
 						/>
-						<Link href={`/profile/${comment.username}`} className="text-sm text-blue-500 visited:text-green-500">
+						<Link
+							href={`/profile/${comment.username}`}
+							className="text-sm text-blue-500 visited:text-green-500"
+						>
 							{comment.username}
 						</Link>
 					</div>

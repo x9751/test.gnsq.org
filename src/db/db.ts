@@ -14,6 +14,7 @@ interface Database {
 	feed_videos: FeedVideo;
 	feed_follows: FeedFollow;
 	feed_comments: FeedComment;
+	blocked_users: BlockedUser;
 	achievements: Achievement;
 	user_achievements: UserAchievement;
 	events: Events;
@@ -132,6 +133,13 @@ export interface FeedComment {
 	feed_id: number;
 	created_at: ColumnType<Date, string | undefined, never>;
 	updated_at: ColumnType<Date, string | undefined, never>;
+}
+
+export interface BlockedUser {
+	id: Generated<number>;
+	user_id: number;
+	blocked_user_id: number;
+	created_at: ColumnType<Date, string | undefined, never>;
 }
 
 export interface Achievement {
@@ -402,6 +410,8 @@ async function install() {
 				col.defaultTo(sql`CURRENT_TIMESTAMP`)
 			)
 			.execute();
+
+		await
 
 		await db.schema
 			.createTable("achievements")

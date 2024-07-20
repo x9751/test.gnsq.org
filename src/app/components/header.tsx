@@ -43,7 +43,7 @@ export default async function Header() {
 								<Link href="/about">About Us</Link>
 							</li>
 							<li className="hover:bg-green-800 active:bg-green-900">
-								<Link href="/profile">Profile</Link>
+								<Link href="/me">Profile</Link>
 							</li>
 						</ul>
 					</div>

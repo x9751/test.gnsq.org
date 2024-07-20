@@ -4,12 +4,17 @@ import Link from "next/link";
 import Highlight from "@/app/components/Highlight";
 import bbcodeToHtml from "@/app/utils/bbcodeToHtml";
 
-export default async function CategoryPage({ params }: { params: { category_id: string } }) {
+export default async function CategoryPage({
+	params,
+}: {
+	params: { category_id: string };
+}) {
 	const category_id = parseInt(params.category_id);
 
 	let threadQuery = db
 		.selectFrom("threads")
-		// @ts-ignore
+		.leftJoin("users", "users.id", "threads.user_id")
+		.leftJoin("categories", "categories.id", "threads.category_id")
 		.select([
 			"threads.id",
 			"threads.title",
@@ -20,11 +25,10 @@ export default async function CategoryPage({ params }: { params: { category_id: 
 			"users.username",
 			"categories.name as category_name",
 		])
-		.leftJoin("users", "users.id", "threads.user_id")
-		.leftJoin("categories", "categories.id", "threads.category_id")
+
 		.where("threads.category_id", "=", category_id);
 
-	const threads = await threadQuery.execute() as any[];
+	const threads = (await threadQuery.execute()) as any[];
 
 	return (
 		<section className="w-full ">

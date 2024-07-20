@@ -21,7 +21,8 @@ export default async function Forum({
 	);
 	let threadQuery = db
 		.selectFrom("threads")
-		// @ts-ignore
+		.leftJoin("users", "users.id", "threads.user_id")
+		.leftJoin("categories", "categories.id", "threads.category_id")
 		.select([
 			"threads.id",
 			"threads.title",
@@ -32,8 +33,6 @@ export default async function Forum({
 			"users.username",
 			"categories.name as category_name",
 		])
-		.leftJoin("users", "users.id", "threads.user_id")
-		.leftJoin("categories", "categories.id", "threads.category_id")
 		.orderBy(`threads.created_at ${order === "asc" ? "asc" : "desc"}`)
 		.offset((parseInt(page) - 1) * parseInt(limit))
 		.$if(search !== "", (q) => q.where("title", "ilike", `%${search}%`))

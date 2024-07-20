@@ -7,8 +7,13 @@ import CreatePost from "./CreatePost";
 import bbcodeToHtml from "./utils/bbcodeToHtml";
 
 import CreateComment from "./CreateComment";
+import Link from "next/link";
 
-const Comments = dynamic(() => import("./Comments"), { loading: () => <div className="text-gray-500 animate-pulse">Loading Comments...</div> });
+const Comments = dynamic(() => import("./Comments"), {
+	loading: () => (
+		<div className="text-gray-500 animate-pulse">Loading Comments...</div>
+	),
+});
 
 const PostList = ({ post }: { post: any[] }) => (
 	<section className="flex flex-col gap-4">
@@ -59,8 +64,17 @@ const Post = ({
 					className="rounded-full"
 				/>
 				<div className="w-full">
-					<h3 className="font-bold text-lg">{username}</h3>
-					<p className="text-gray-700"><span dangerouslySetInnerHTML={{ __html: bbcodeToHtml(content) }} /></p>
+					<h3 className="font-bold text-lg">
+						<Link href={`/profile/${username}`} className="hover:underline">
+							{username}
+						</Link>
+					</h3>
+					<p className="text-gray-700">
+						<span
+							className="whitespace-pre-wrap"
+							dangerouslySetInnerHTML={{ __html: bbcodeToHtml(content) }}
+						/>
+					</p>
 					<div className="flex items-center space-x-4 text-sm text-gray-500 mt-2">
 						<time dateTime={timestamp}>
 							{new Date(timestamp).toLocaleDateString()}
