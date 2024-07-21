@@ -14,11 +14,10 @@ export default function LikeFeed({
 	const [liked, setLiked] = useState(serverLiked);
 
 	useEffect(() => {
-		console.log(formState);
 		if (formState.success) {
 			toggleLike();
 		}
-	}, [formState.success]);
+	}, [formState]);
 
 	const toggleLike = useCallback(() => {
 		setLiked(!liked);

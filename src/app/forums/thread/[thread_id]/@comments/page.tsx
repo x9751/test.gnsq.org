@@ -39,6 +39,7 @@ export default async function Page({
 				<div
 					className="flex flex-col md:flex-row gap-2 divide-x divide-gray-200"
 					id={`c${comment.id}`}
+					key={comment.id}
 				>
 					<div className="flex-col gap-2 items-center p-4 hidden md:flex w-1/4">
 						<Image
