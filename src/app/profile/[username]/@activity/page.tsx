@@ -1,5 +1,6 @@
 import { getUserActivies } from "@/db/activies";
 import { getUser } from "@/db/auth";
+import Link from "next/link";
 
 export default async function Activity() {
 	const logged = await getUser();
@@ -16,9 +17,9 @@ export default async function Activity() {
 				<p className="text-gray-600 mb-2">
 					{activity.activity}{" "}
 					{activity.link && (
-						<a href={activity.link} className="text-green-6000 hover:underline">
-							{activity.link}
-						</a>
+						<Link href={activity.link} className="text-green-6000 hover:underline">
+							#
+						</Link>
 					)}
 				</p>
 				<p className="text-gray-800">{activity.content}</p>

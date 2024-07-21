@@ -39,12 +39,13 @@ export async function getUserActivies(user_id: number): Promise<Activity[]> {
 					"thread_posts.content",
 					"thread_posts.created_at",
 					"threads.title",
+					"thread_posts.thread_id"
 				])
 				.executeTakeFirst();
 
 			activity.post = post;
 			activity.activity = `Replied to to a thread in ${post!.title}`;
-			activity.link = `/thread/${activity.reference_id}`;
+			activity.link = `/forums/thread/${post!.thread_id}#c${activity!.reference_id}`;
 			activity.content = post!.content;
 		}
 		if (activity.is_like) {

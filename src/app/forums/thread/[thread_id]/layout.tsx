@@ -36,6 +36,7 @@ export default async function Layout({
 			<div className="flex flex-col gap-4">
 				{children}
 				<div className="border-t border-gray-200"></div>
+				<h3 className="text-xl font-bold text-center">Comments</h3>
 				{comments}
         <ReplyThread thread_id={thread.id} />
 			</div>

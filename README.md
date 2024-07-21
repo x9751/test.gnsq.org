@@ -27,4 +27,4 @@ A web app for the GNSQ.org community.
 - [ ] Moderation
 - [ ] Admin
 
-Built with ❤️ by [@gnsq](https://gnsq.org)
+Built with ❤️ by [@gnsq](https://gnsq.org)g

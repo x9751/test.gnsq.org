@@ -45,7 +45,9 @@ export default async function CategoryPage({
 				}) => (
 					<div className="bg-white p-4 rounded shadow mb-4" key={thread.id}>
 						<h3 className="text-xl font-bold mb-2">
-							<Highlight text={thread.title} highlight={""} />
+							<Link href={`/forums/thread/${thread.id}`}>
+								<Highlight text={thread.title} highlight={""} />
+							</Link>
 						</h3>
 						<p className="text-gray-700 mb-2">
 							Started by{" "}

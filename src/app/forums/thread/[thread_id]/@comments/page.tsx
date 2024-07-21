@@ -34,46 +34,99 @@ export default async function Page({
 	}
 
 	return (
-		<div className="flex flex-col gap-2">
+		<div className="flex flex-col divide-y">
 			{comments.map((comment: any) => (
 				<div
 					className="flex flex-col md:flex-row gap-2 divide-x divide-gray-200"
-					key={comment.id}
+					id={`c${comment.id}`}
 				>
-					<div className="flex flex-col gap-2 items-center p-4">
+					<div className="flex-col gap-2 items-center p-4 hidden md:flex w-1/4">
 						<Image
-							src={comment.user_avatar ?? "/default_avatar_green.png"}
+							src={comment!.user_avatar ?? "/default_avatar_green.png"}
 							alt="User Avatar"
-							width={50}
-							height={50}
+							width={100}
+							height={100}
 							className="rounded-full"
 						/>
 						<Link
-							href={`/profile/${comment.username}`}
+							href={`/profile/${comment!.username}`}
 							className="text-sm text-blue-500 visited:text-green-500"
 						>
-							{comment.username}
+							{comment!.username}
 						</Link>
 					</div>
-					<div className="flex flex-col gap-2 p-2">
-						<div className="p-2">
-							<h3 className="text-lg font-bold">RE: {comment!.title}</h3>
-						</div>
+
+					<div className="flex flex-col gap-2 p-2 w-full">
 						<div className="p-2">
 							<p
-								className="text-black"
+								className="text-black whitespace-pre-wrap"
 								dangerouslySetInnerHTML={{
 									__html: bbcodeToHtml(comment!.content),
 								}}
 							/>
 						</div>
 						<div className="p-2">
-							<span className="text-sm text-gray-500">
-								{comment!.created_at.toLocaleDateString()}
-							</span>
+							<div className="flex justify-between">
+								<span className="text-sm text-gray-500">
+									{comment!.created_at.toLocaleDateString()}
+								</span>
+								<div className="flex gap-1 justify-end md:hidden">
+									<Image
+										src={comment!.user_avatar ?? "/default_avatar_green.png"}
+										alt="User Avatar"
+										width={20}
+										height={20}
+										className="rounded-full"
+									/>
+									<Link
+										href={`/profile/${comment!.username}`}
+										className="text-sm text-blue-500 visited:text-green-500"
+									>
+										{comment!.username}
+									</Link>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>
+				// <div
+				// 	className="flex flex-col md:flex-row gap-2 divide-x divide-gray-200"
+				// 	key={comment.id}
+				// >
+				// 	<div className="flex flex-col gap-2 items-center p-4 w-1/4">
+				// 		<Image
+				// 			src={comment.user_avatar ?? "/default_avatar_green.png"}
+				// 			alt="User Avatar"
+				// 			width={75}
+				// 			height={75}
+				// 			className="rounded-full"
+				// 		/>
+				// 		<Link
+				// 			href={`/profile/${comment.username}`}
+				// 			className="text-sm text-blue-500 visited:text-green-500"
+				// 		>
+				// 			{comment.username}
+				// 		</Link>
+				// 	</div>
+				// 	<div className="flex flex-col gap-2 p-2 w-full">
+				// 		<div className="p-2">
+				// 			<h3 className="text-lg font-bold">RE: {comment!.title}</h3>
+				// 		</div>
+				// 		<div className="p-2">
+				// 			<p
+				// 				className="text-black"
+				// 				dangerouslySetInnerHTML={{
+				// 					__html: bbcodeToHtml(comment!.content),
+				// 				}}
+				// 			/>
+				// 		</div>
+				// 		<div className="p-2">
+				// 			<span className="text-sm text-gray-500">
+				// 				{comment!.created_at.toLocaleDateString()}
+				// 			</span>
+				// 		</div>
+				// 	</div>
+				// </div>
 			))}
 		</div>
 	);
