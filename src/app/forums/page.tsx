@@ -10,7 +10,7 @@ export default async function Forum({
 }) {
 	const popular = (searchParams.popular as string) || "true";
 	const search = (searchParams.search as string) || "";
-	const order = (searchParams.order as string) || "asc";
+	const order = (searchParams.order as string) || "desc";
 	const page = (searchParams.page as string) || "1";
 	const limit = (searchParams.limit as string) || "10";
 	const categories = JSON.parse(
@@ -83,9 +83,14 @@ export default async function Forum({
 							className="text-gray-700 line-clamp-2 max-h-[100px] overflow-y-hidden whitespace-pre-wrap"
 							dangerouslySetInnerHTML={{ __html: bbcodeToHtml(thread.content) }}
 						/>
+						<p className="text-gray-700 text-xs mt-2">
+							<time dateTime={thread.created_at}>
+								{new Date(thread.created_at).toLocaleDateString()}
+							</time>
+						</p>
 						<Link
 							href={`/forums/thread/${thread.id}`}
-							className="text-green-6000 hover:underline"
+							className="text-green-600 font-bold hover:underline mt-2"
 						>
 							Read More
 						</Link>

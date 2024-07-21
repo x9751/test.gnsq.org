@@ -61,7 +61,7 @@ export default function SearchForm({
 			popular: searchParams.get("popular")
 				? searchParams.get("popular") === "true"
 				: true,
-			order: searchParams.get("order") || "asc",
+			order: searchParams.get("order") || "desc",
 			page: searchParams.get("page") ? Number(searchParams.get("page")) : 1,
 			limit: searchParams.get("limit") ? Number(searchParams.get("limit")) : 10,
 			categories: searchParams.get("categories")
