@@ -18,3 +18,12 @@ export async function getUser() {
 		.executeTakeFirst();
 	return user;
 }
+
+export async function getUserByUsername(username: string) {
+	const user = await db
+		.selectFrom("users")
+		.selectAll()
+		.where("username", "=", username)
+		.executeTakeFirst();
+	return user;
+}
