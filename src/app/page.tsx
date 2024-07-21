@@ -118,7 +118,7 @@ function GuestView({
 						<p className="text-gray-7000 ">
 							<span className="whitespace-pre-wrap" dangerouslySetInnerHTML={{ __html: bbcodeToHtml(latest_popular_thread.content) }} />
 						</p>
-						<Link href={`/thread/${latest_popular_thread.id}`} className="text-green-600 hover:underline">
+						<Link href={`/forums/thread/${latest_popular_thread.id}`} className="text-green-600 hover:underline">
 							Read More
 							</Link>
 						</article>
