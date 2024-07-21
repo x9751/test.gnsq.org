@@ -1,10 +1,14 @@
-import { getUser } from "@/db/auth";
+import { getUser, getUserByUsername } from "@/db/auth";
 import db from "@/db/db";
 import Image from "next/image";
 
-export default async function Achievements() {
+export default async function Achievements({params}: {params: {username: string}}) {
 	const logged = await getUser();
 	if (!logged) {
+		return null;
+	}
+	const user = await getUserByUsername(params.username);
+	if (!user) {
 		return null;
 	}
 	const achievements = await db
@@ -19,7 +23,7 @@ export default async function Achievements() {
 			"achievements.icon",
 			"user_achievements.created_at",
 		])
-		.where("user_achievements.user_id", "=", logged.id)
+		.where("user_achievements.user_id", "=", user.id)
 		.execute();
 	return (
 		<section className="mt-8 p-4 bg-white rounded shadow">

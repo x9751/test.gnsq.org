@@ -1,13 +1,17 @@
 import { getUserActivies } from "@/db/activies";
-import { getUser } from "@/db/auth";
+import { getUser, getUserByUsername } from "@/db/auth";
 import Link from "next/link";
 
-export default async function Activity() {
+export default async function Activity({params}: {params: {username: string}}) {
 	const logged = await getUser();
 	if (!logged) {
 		return null;
 	}
-	const activities = await getUserActivies(logged.id);
+	const user = await getUserByUsername(params.username);
+	if (!user) {
+		return null;
+	}
+	const activities = await getUserActivies(user.id);
 	return (
 		<section className="md:col-span-2 p-4 bg-white rounded shadow">
 			<h2 className="text-2xl font-bold mb-4">Recent Activity</h2>
