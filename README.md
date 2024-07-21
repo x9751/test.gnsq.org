@@ -23,6 +23,7 @@ A web app for the GNSQ.org community.
 - [x] Logout
 - [x] Edit Profile
 - [x] Contact (80% needs to send email)
+- [x] Mobile Friendly
 - [ ] Notifications
 - [ ] Moderation
 - [ ] Admin

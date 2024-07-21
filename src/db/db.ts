@@ -527,10 +527,8 @@ async function install() {
 			.addColumn("id", "serial", (col) => col.primaryKey())
 			.addColumn("name", "varchar(255)", (col) => col.notNull())
 			.addColumn("email", "varchar(255)", (col) => col.notNull())
+			.addColumn("subject", "varchar(255)", (col) => col.notNull())
 			.addColumn("message", "text", (col) => col.notNull())
-			.addColumn("user_id", "integer", (col) =>
-				col.notNull().references("users.id")
-			)
 			.addColumn("created_at", "timestamp", (col) =>
 				col.defaultTo(sql`CURRENT_TIMESTAMP`)
 			)

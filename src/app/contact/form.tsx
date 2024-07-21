@@ -18,6 +18,7 @@ export default function Form() {
 					<input
 						type="text"
 						id="name"
+						name="name"
 						className="w-full p-2 border rounded"
 						required
 					/>
@@ -29,6 +30,7 @@ export default function Form() {
 					<input
 						type="email"
 						id="email"
+						name="email"
 						className="w-full p-2 border rounded"
 						required
 					/>
@@ -39,6 +41,7 @@ export default function Form() {
 					</label>
 					<input
 						type="text"
+						name="subject"
 						id="subject"
 						className="w-full p-2 border rounded"
 						required
@@ -50,6 +53,7 @@ export default function Form() {
 					</label>
 					<textarea
 						id="message"
+						name="message"
 						className="w-full p-2 border rounded"
 						rows={5}
 						required
