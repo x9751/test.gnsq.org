@@ -38,15 +38,23 @@ export async function createThread(
 				is_hidden: false,
 				is_popular: false,
 			})
+			.returning(["id"])
 			.executeTakeFirstOrThrow();
+		await db
+			.insertInto("activities")
+			.values({
+				user_id: user.id,
+				reference_id: insert.id,
+				action: "1",
+			})
+			.execute();
 	} catch (e) {
 		console.log(e);
 		return {
 			error: "Failed to create thread",
 		};
 	}
-	console.log(insert);
-	// redirect(`/forums/thread/${insert.insertId?.toString()}`);
+	redirect(`/forums/thread/${insert.id?.toString()}`);
 
 	return {
 		message: "Thread created successfully",

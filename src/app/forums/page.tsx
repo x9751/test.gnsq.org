@@ -78,7 +78,7 @@ export default async function Forum({
 							</Link>
 						</p>
 						<p
-							className="text-gray-700 line-clamp-2"
+							className="text-gray-700 line-clamp-2 max-h-[100px] overflow-y-hidden whitespace-pre-wrap"
 							dangerouslySetInnerHTML={{ __html: bbcodeToHtml(thread.content) }}
 						/>
 						<Link

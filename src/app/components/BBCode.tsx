@@ -5,8 +5,9 @@ const bbcodeToHtml = (text: string) => {
 		"\\[b\\](.*?)\\[/b\\]": "<strong>$1</strong>",
 		"\\[i\\](.*?)\\[/i\\]": "<em>$1</em>",
 		"\\[u\\](.*?)\\[/u\\]": "<u>$1</u>",
-		"\\[url=(.*?)\\](.*?)\\[/url\\]": '<a href="$1" target="_blank">$2</a>',
-		"\\[img=(.*?)\\](.*?)\\[/img\\]": '<img src="$1" alt="$2" />',
+		"\\[url=(.*?)\\](.*?)\\[/url\\]": '<a href="$1" target="_blank" rel="noopener noreferrer">$2</a>',
+		"\\[img(\\s+width=(\\d+px))?(\\s+height=(\\d+px))?\\](.*?)\\[/img\\]": 
+			'<img src="$5" alt="" $1 $3 />',
 		"\\[color=(.*?)\\](.*?)\\[/color\\]": '<span style="color: $1">$2</span>',
 		"\\[size=(.*?)\\](.*?)\\[/size\\]": '<span style="font-size: $1">$2</span>',
 		"\\[align=(.*?)\\](.*?)\\[/align\\]":
@@ -28,7 +29,8 @@ const BBCodeEditor: React.FC<{
 	placeholder?: string;
 	name?: string;
 	maxLength?: number;
-}> = ({ value, onChange, placeholder, name, maxLength }) => {
+	required?: boolean;	
+}> = ({ value, onChange, placeholder, name, maxLength, required }) => {
 	const [text, setText] = useState(value || "");
 	const textareaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -145,9 +147,10 @@ const BBCodeEditor: React.FC<{
 				value={text}
 				onChange={handleChange}
 				placeholder={placeholder || "Enter BBCode here..."}
+				required={required}
 			/>
 			<div
-				className="p-2 border rounded-md bg-gray-100 whitespace-pre-wrap"
+				className="p-2 border rounded-md bg-gray-100 whitespace-pre-wrap max-h-[100px] overflow-y-auto"
 				dangerouslySetInnerHTML={{ __html: bbcodeToHtml(text) }}
 			/>
 		</div>

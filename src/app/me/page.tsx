@@ -1,9 +1,6 @@
-import db from "@/db/db";
 import { getUser } from "@/db/auth";
-import { notFound, redirect } from "next/navigation";
+import { redirect } from "next/navigation";
 import Image from "next/image";
-import FollowButton from "@/app/components/FollowButton";
-import BlockButton from "@/app/components/BlockButton";
 import UpdateProfileForm from "./UpdateProfile";
 import Link from "next/link";
 

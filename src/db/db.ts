@@ -164,8 +164,7 @@ export interface Events {
 	name: string;
 	description: string;
 	location: string;
-	date: ColumnType<Date, string | undefined, never>;
-	time: ColumnType<Date, string | undefined, never>;
+	start_date: ColumnType<Date, string | undefined, never>;
 	image: string | null;
 	user_id: number;
 	created_at: ColumnType<Date, string | undefined, never>;
@@ -450,8 +449,7 @@ async function install() {
 			.addColumn("name", "varchar(255)", (col) => col.notNull())
 			.addColumn("description", "text", (col) => col.notNull())
 			.addColumn("location", "varchar(255)", (col) => col.notNull())
-			.addColumn("date", "date", (col) => col.notNull())
-			.addColumn("time", "time", (col) => col.notNull())
+			.addColumn("start_date", "timestamp", (col) => col.notNull())
 			.addColumn("image", "varchar(255)")
 			.addColumn("user_id", "integer", (col) =>
 				col.notNull().references("users.id")

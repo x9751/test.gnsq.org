@@ -26,12 +26,22 @@ export async function replyToThread(prev: any, formData: FormData): Promise<{ er
 		return { error: "Thread not found" };
 	}
 
-	await db
+	const post = await db
 		.insertInto("thread_posts")
 		.values({
 			content: content.toString(),
 			user_id: user.id,
 			thread_id: Number(thread_id),
+		})
+		.returning(["id"])
+		.executeTakeFirstOrThrow();
+
+	await db
+		.insertInto("activities")
+		.values({
+			user_id: user.id,
+			reference_id: post.id,
+			action: "2",
 		})
 		.execute();
 

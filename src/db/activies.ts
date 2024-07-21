@@ -22,7 +22,7 @@ export async function getUserActivies(user_id: number): Promise<Activity[]> {
 		if (activity.is_thread) {
 			const thread = await db
 				.selectFrom("threads")
-				.where("id", "==", activity.reference_id)
+				.where("threads.id", "=", activity.reference_id)
 				.select(["title", "created_at"])
 				.executeTakeFirst();
 			activity.thread = thread;
@@ -33,7 +33,7 @@ export async function getUserActivies(user_id: number): Promise<Activity[]> {
 		if (activity.is_post) {
 			const post = await db
 				.selectFrom("thread_posts")
-				.where("id", "==", activity.reference_id)
+				.where("thread_posts.id", "=", activity.reference_id)
 				.innerJoin("threads", "threads.id", "thread_posts.thread_id")
 				.select([
 					"thread_posts.content",
@@ -50,7 +50,7 @@ export async function getUserActivies(user_id: number): Promise<Activity[]> {
 		if (activity.is_like) {
 			const like = await db
 				.selectFrom("feed_likes")
-				.where("id", "==", activity.reference_id)
+				.where("feed_likes.id", "=", activity.reference_id)
 				.innerJoin("users", "users.id", "feed_likes.user_id")
 				.select(["feed_likes.created_at", "users.username"])
 				.executeTakeFirst();

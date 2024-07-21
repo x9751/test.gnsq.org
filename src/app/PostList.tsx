@@ -8,6 +8,8 @@ import bbcodeToHtml from "./utils/bbcodeToHtml";
 
 import CreateComment from "./CreateComment";
 import Link from "next/link";
+import { FeedPost } from "./types";
+import LikeFeed from "./LikeFeed";
 
 const Comments = dynamic(() => import("./Comments"), {
 	loading: () => (
@@ -15,7 +17,7 @@ const Comments = dynamic(() => import("./Comments"), {
 	),
 });
 
-const PostList = ({ post }: { post: any[] }) => (
+const PostList = ({ post }: { post: FeedPost[] }) => (
 	<section className="flex flex-col gap-4">
 		<div className="flex justify-between">
 			<h1 className="text-2xl font-bold">Feed</h1>
@@ -30,6 +32,8 @@ const PostList = ({ post }: { post: any[] }) => (
 					content={post.content}
 					timestamp={post.created_at}
 					postId={post.id}
+					liked={post.liked ?? false}
+					likes={post.likes ?? 0}
 				/>
 			))}
 		</div>
@@ -42,12 +46,16 @@ const Post = ({
 	content,
 	timestamp,
 	postId,
+	liked,
+	likes,
 }: {
 	username: string;
-	avatar: string;
+	avatar: string | null;
 	content: string;
-	timestamp: string;
+	timestamp: Date;
 	postId: number;
+	liked: boolean;
+	likes: number;
 }) => {
 	const [showComments, setShowComments] = useState(false);
 
@@ -76,10 +84,13 @@ const Post = ({
 						/>
 					</p>
 					<div className="flex items-center space-x-4 text-sm text-gray-500 mt-2">
-						<time dateTime={timestamp}>
+						<time dateTime={timestamp.toISOString()}>
 							{new Date(timestamp).toLocaleDateString()}
 						</time>
-						<button className="hover:underline">Like</button>
+						<div className="flex gap-1">
+							<LikeFeed feed_id={postId} serverLiked={liked} />
+							<span>{likes}</span>
+						</div>
 						<button className="hover:underline" onClick={toggleComments}>
 							{showComments ? "Hide Comments" : "Show Comments"}
 						</button>

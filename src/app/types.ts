@@ -25,3 +25,14 @@ export type Activity = {
 		created_at: Date;
 	};
 };
+
+export type FeedPost = {
+	id: number;
+	content: string;
+	created_at: Date;
+	user_id: number;
+	username: string;
+	avatar: string | null;
+	likes?: number;
+	liked?: boolean;
+}

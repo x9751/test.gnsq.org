@@ -6,6 +6,7 @@ import { getUser } from "@/db/auth";
 import { redirect } from "next/navigation";
 import db from "@/db/db";
 import NewChat from "./NewChat";
+import Link from "next/link";
 
 type Room = {
 	room_id: number;
@@ -73,7 +74,7 @@ export default async function Layout({
 							)}
 							{rooms.map((room) => (
 								<li className="mb-2" key={room.room_id}>
-									<a
+									<Link
 										href={`/messages/${room.room_id}`}
 										className="flex items-center space-x-2 text-green-600 hover:underline"
 									>
@@ -90,7 +91,7 @@ export default async function Layout({
 												{room.last_message.content}
 											</p>
 										</div>
-									</a>
+									</Link>
 								</li>
 							))}
 						</ul>
