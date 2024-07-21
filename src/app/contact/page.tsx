@@ -17,7 +17,7 @@ export default function AboutUS() {
 						<li>
 							Email:{" "}
 							<a
-								href="mailto:info@gnsq.org"
+								href="mailto:info@gnsq.org?subject=Contact%20Us"
 								className="text-green-600 hover:underline"
 								target="_blank"
 								rel="noopener noreferrer"
@@ -25,17 +25,7 @@ export default function AboutUS() {
 								info@gnsq.org
 							</a>
 						</li>
-						<li>
-							Twitter:{" "}
-							<a
-								href="https://twitter.com/gnsq"
-								className="text-green-6000 hover:underline"
-								target="_blank"
-								rel="noopener noreferrer"
-							>
-								@gnsq
-							</a>
-						</li>
+						
 						<li>
 							Discord:{" "}
 							<a
