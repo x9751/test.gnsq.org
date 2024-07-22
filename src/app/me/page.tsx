@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Image from "next/image";
 import UpdateProfileForm from "./UpdateProfile";
 import Link from "next/link";
+import UserAvatar from "../components/UserAvatar";
 
 export default async function ProfilePage({
 	params,
@@ -20,13 +21,14 @@ export default async function ProfilePage({
 	return (
 		<aside className="md:col-span-1 p-4 bg-white rounded shadow">
 			<div className="text-center">
-				<Image
+				{/* <Image
 					width={150}
 					height={150}
 					src={logged.avatar || "/default_avatar_green.png"}
 					alt="User Avatar"
 					className="rounded-full mx-auto mb-2"
-				/>
+				/> */}
+				<UserAvatar editable currentAvatar={logged.avatar || undefined} width={150} height={150} />
 				<h2 className="text-xl font-bold mb-2">{logged.username}</h2>
 				<p className="text-gray-600 mb-2">{logged.bio}</p>
 				{!edit && (

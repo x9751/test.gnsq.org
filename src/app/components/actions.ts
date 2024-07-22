@@ -1,4 +1,5 @@
 "use server";
+import { put } from "@vercel/blob";
 
 import { getUser } from "@/db/auth";
 import db from "@/db/db";
@@ -101,4 +102,37 @@ export async function blockUser(
 	revalidatePath(`/profile/${user.username}`, "page");
 
 	return { message: isBlocked ? "Unblocked" : "Blocked" };
+}
+
+export async function uploadAvatar(
+	prev: any,
+	formData: FormData
+): Promise<{ error?: string; message?: string }> {
+	const session = await getUser();
+	if (!session) {
+		return { error: "Unauthorized" };
+	}
+
+	const randomId = Math.random().toString(36).substring(2);
+
+	const avatar = formData.get("avatar") as File;
+	if (!avatar) {
+		return { error: "No avatar" };
+	}
+	const name = avatar.name as string;
+	const extension = name.split(".")[name.split(".").length - 1];
+
+	const results = await put(`avatar/${randomId}.${extension}`, avatar, {
+		access: "public",
+	});
+
+	await db
+		.updateTable("users")
+		.set({ avatar: results.url })
+		.where("id", "=", session.id)
+		.execute();
+
+	revalidatePath("/me", "page");
+
+	return { message: "Avatar uploaded" };
 }
