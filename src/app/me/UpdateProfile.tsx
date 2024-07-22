@@ -29,6 +29,18 @@ export default function UpdateProfileForm({
 				defaultValue={bio}
 				className="w-full p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
 			/>
+			<input
+				type="password"
+				name="password"
+				placeholder="Update password"
+				className="w-full p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+			/>
+			<input
+				type="password"
+				name="old_password"
+				placeholder="Old password"
+				className="w-full p-2 rounded-md border-2 border-gray-300 focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent outline-none"
+			/>
 			{/* <input
 				type="file"
 				name="avatar"
