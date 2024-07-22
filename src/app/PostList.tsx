@@ -10,6 +10,7 @@ import CreateComment from "./CreateComment";
 import Link from "next/link";
 import { FeedPost } from "./types";
 import LikeFeed from "./LikeFeed";
+import UserAvatar from "./components/UserAvatar";
 
 const Comments = dynamic(() => import("./Comments"), {
 	loading: () => (
@@ -64,12 +65,10 @@ const Post = ({
 	return (
 		<article className="p-4 bg-white rounded shadow">
 			<div className="flex items-start space-x-4 w-full">
-				<Image
-					src={avatar ?? "/default_avatar_green.png"}
-					alt={`${username}'s avatar`}
+				<UserAvatar
+					currentAvatar={avatar}
 					width={48}
 					height={48}
-					className="rounded-full"
 				/>
 				<div className="w-full">
 					<h3 className="font-bold text-lg">

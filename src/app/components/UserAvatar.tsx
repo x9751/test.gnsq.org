@@ -15,8 +15,8 @@ export default function UserAvatar({
 	height = defaultHeight,
 	title = "User Avatar",
 }: {
-	currentAvatar?: string;
-	editable: boolean;
+	currentAvatar?: string | null;
+	editable?: boolean;
 	width?: number;
 	height?: number;
 	title?: string;
@@ -35,11 +35,11 @@ export default function UserAvatar({
 			ref={formRef}
 		>
 			<Image
-				width={150}
-				height={150}
+				width={width}
+				height={height}
 				src={currentAvatar || defaultAvatar}
 				alt={title}
-				className="rounded-full mx-auto mb-2"
+				className="rounded-full mx-auto mb-2 object-none aspect-square"
 			/>
 			{editable && (
 				<label

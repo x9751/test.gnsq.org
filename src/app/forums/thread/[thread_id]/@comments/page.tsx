@@ -1,3 +1,4 @@
+import UserAvatar from "@/app/components/UserAvatar";
 import bbcodeToHtml from "@/app/utils/bbcodeToHtml";
 import db from "@/db/db";
 import Image from "next/image";
@@ -42,12 +43,10 @@ export default async function Page({
 					key={comment.id}
 				>
 					<div className="flex-col gap-2 items-center p-4 hidden md:flex w-1/4">
-						<Image
-							src={comment!.user_avatar ?? "/default_avatar_green.png"}
-							alt="User Avatar"
+						<UserAvatar
 							width={100}
 							height={100}
-							className="rounded-full"
+							currentAvatar={comment!.user_avatar}
 						/>
 						<Link
 							href={`/profile/${comment!.username}`}
@@ -72,12 +71,10 @@ export default async function Page({
 									{comment!.created_at.toLocaleDateString()}
 								</span>
 								<div className="flex gap-1 justify-end md:hidden">
-									<Image
-										src={comment!.user_avatar ?? "/default_avatar_green.png"}
-										alt="User Avatar"
+									<UserAvatar
 										width={20}
 										height={20}
-										className="rounded-full"
+										currentAvatar={comment!.user_avatar}
 									/>
 									<Link
 										href={`/profile/${comment!.username}`}

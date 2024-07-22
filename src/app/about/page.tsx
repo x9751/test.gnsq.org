@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Footer from "../components/footer";
 import Header from "../components/header";
+import UserAvatar from "../components/UserAvatar";
 
 const teamMembers = [
 	{
@@ -77,12 +78,10 @@ export default async function AboutUS() {
 								key={member.name}
 								className="bg-white p-4 rounded shadow text-center"
 							>
-								<Image
-									src={member.imgSrc}
-									alt={member.name}
+								<UserAvatar
 									width={150}
 									height={150}
-									className="rounded-full mx-auto mb-2"
+									currentAvatar={member.imgSrc}
 								/>
 								<h3 className="text-xl font-bold mb-2">{member.name}</h3>
 								<p className="text-gray-600">{member.role}</p>

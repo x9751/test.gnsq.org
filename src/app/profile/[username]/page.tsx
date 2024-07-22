@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import FollowButton from "@/app/components/FollowButton";
 import BlockButton from "@/app/components/BlockButton";
+import UserAvatar from "@/app/components/UserAvatar";
 
 export default async function ProfilePage({
 	params,
@@ -38,12 +39,10 @@ export default async function ProfilePage({
 	return (
 		<aside className="md:col-span-1 p-4 bg-white rounded shadow">
 					<div className="text-center">
-						<Image
+						<UserAvatar
 							width={150}
 							height={150}
-							src={user.avatar || "/default_avatar_green.png"}
-							alt="User Avatar"
-							className="rounded-full mx-auto mb-2"
+							currentAvatar={user.avatar}
 						/>
 						<h2 className="text-xl font-bold mb-2">{user.username}</h2>
 						<p className="text-gray-600 mb-2">{user.bio}</p>

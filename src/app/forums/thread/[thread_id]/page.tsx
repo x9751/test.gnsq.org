@@ -2,6 +2,7 @@ import Image from "next/image";
 import db from "@/db/db";
 import bbcodeToHtml from "@/app/utils/bbcodeToHtml";
 import Link from "next/link";
+import UserAvatar from "@/app/components/UserAvatar";
 
 export default async function ThreadPage({
 	params,
@@ -28,12 +29,10 @@ export default async function ThreadPage({
 	return (
 		<div className="flex flex-col md:flex-row gap-2 divide-x divide-gray-200">
 			<div className="flex-col gap-2 items-center p-4 hidden md:flex w-1/4">
-				<Image
-					src={thread!.user_avatar ?? "/default_avatar_green.png"}
-					alt="User Avatar"
+				<UserAvatar
 					width={100}
 					height={100}
-					className="rounded-full"
+					currentAvatar={thread!.user_avatar}
 				/>
 				<Link
 					href={`/profile/${thread!.username}`}
@@ -59,12 +58,10 @@ export default async function ThreadPage({
 							{thread!.created_at.toLocaleDateString()}
 						</span>
 						<div className="flex gap-1 justify-end md:hidden">
-							<Image
-								src={thread!.user_avatar ?? "/default_avatar_green.png"}
-								alt="User Avatar"
+							<UserAvatar
 								width={20}
 								height={20}
-								className="rounded-full"
+								currentAvatar={thread!.user_avatar}
 							/>
 							<Link
 								href={`/profile/${thread!.username}`}
