@@ -7,16 +7,14 @@ export default async function Layout({
 	children,
 	activity,
 	achievements,
-	params,
 }: {
 	children: React.ReactNode;
 	activity: React.ReactNode;
 	achievements: React.ReactNode;
-	params: { username: string };
 }) {
 	const logged = await getUser();
 	if (!logged) {
-		redirect("/login?redirect=/profile/" + params.username);
+		redirect("/login?redirect=/me");
 	}
 	return (
 		<div className="flex min-h-screen flex-col">
